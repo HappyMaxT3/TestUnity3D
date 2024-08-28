@@ -13,6 +13,10 @@ namespace Main
         public float mouseX;
         public float mouseY;
 
+        public bool buttonInput;
+        public bool rollFlag;
+        public bool isInteracting;
+
         PlayerControls inputActions;
         CameraHandler cameraHandler;
 
@@ -57,6 +61,8 @@ namespace Main
         public void TickInput(float delta)
         {
             MoveInput(delta);
+            HandleRollInput(delta);
+            
         }
 
         private void MoveInput(float delta)
@@ -66,6 +72,20 @@ namespace Main
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
             mouseX = cameraInput.x;
             mouseY = cameraInput.y;
+        }
+
+        private void HandleRollInput(float delta)
+        {
+            buttonInput = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+
+            if (buttonInput)
+            {
+                rollFlag = true;
+            }
+            else
+            {
+                rollFlag = false;
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ namespace Main
     public class AnimatorHandler : MonoBehaviour
     {
         public Animator animator;
+        public InputHandler inputHandler;
+        public PlayerLocomotion playerLocomotion;
         private int vertical;
         private int horizontal;
         public bool canRotate;
@@ -14,6 +16,8 @@ namespace Main
         public void Initialize()
         {
             animator = GetComponent<Animator>();
+            inputHandler = GetComponent<InputHandler>();
+            playerLocomotion = GetComponent<PlayerLocomotion>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
@@ -75,6 +79,13 @@ namespace Main
             animator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
 
+        public void PlayTargetAnimation(string targetAnim, bool isInteracting)
+        {
+            animator.applyRootMotion = isInteracting;
+            animator.SetBool("IsInteracting", isInteracting);
+            animator.CrossFade(targetAnim, 0.2f);
+        }
+
         public void CanRotate()
         {
             canRotate = true;
@@ -83,6 +94,20 @@ namespace Main
         public void StopRotate()
         {
             canRotate = false;
+        }
+
+        private void OnAnimatorMove()
+        {
+            if (inputHandler.isInteracting == false)
+            {
+                return;
+            }
+            float delta = Time.deltaTime;
+            playerLocomotion.rb.drag = 0;
+            Vector3 deltaPosition = animator.deltaPosition;
+            deltaPosition.y = 0;
+            Vector3 velocity = deltaPosition / delta;
+            playerLocomotion.rb.velocity = velocity;
         }
     }
 }

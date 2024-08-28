@@ -37,27 +37,13 @@ namespace Main
 
             inputHandler.TickInput(delta);
 
-            //moveDirection = cameraObject.forward * inputHandler.vertical;
-            //moveDirection = cameraObject.right * inputHandler.horizontal;
-            moveDirection = (cameraObject.forward * inputHandler.vertical) + (cameraObject.right * inputHandler.horizontal);
-            moveDirection.y = 0;
-            moveDirection.Normalize();
+            HandleMovement(delta);
 
-            float speed = movementSpeed;
-            moveDirection *= speed;
-
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
-            rb.velocity = projectedVelocity;
-
-            animatorHandler.UpdatteAnimatorValues(inputHandler.moveAmount, 0);
-
-            if (animatorHandler.canRotate)
-            {
-                HandleRotation(delta);
-            }
+            HandleRollAndSprint(delta);
         }
 
         #region Movement
+
         Vector3 normalVector;
         Vector3 targetPosition;
 
@@ -83,6 +69,53 @@ namespace Main
             Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
 
             myTransform.rotation = targetRotation;
+        }
+
+        private void HandleMovement(float delta)
+        {
+            //moveDirection = cameraObject.forward * inputHandler.vertical;
+            //moveDirection = cameraObject.right * inputHandler.horizontal;
+            moveDirection = (cameraObject.forward * inputHandler.vertical) + (cameraObject.right * inputHandler.horizontal);
+            moveDirection.y = 0;
+            moveDirection.Normalize();
+
+            float speed = movementSpeed;
+            moveDirection *= speed;
+
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            rb.velocity = projectedVelocity;
+
+            animatorHandler.UpdatteAnimatorValues(inputHandler.moveAmount, 0);
+
+            if (animatorHandler.canRotate)
+            {
+                HandleRotation(delta);
+            }
+        }
+
+        public void HandleRollAndSprint(float delta)
+        {
+            if (animatorHandler.animator.GetBool("isInteracting"))
+            {
+                return;
+            }
+            if (inputHandler.rollFlag)
+            {
+                Debug.Log("Roll!");
+                moveDirection = (cameraObject.forward * inputHandler.vertical) + (cameraObject.right * inputHandler.horizontal);
+
+                if(inputHandler.moveAmount > 0)
+                {
+                    animatorHandler.PlayTargetAnimation("Rolling", true);
+                    moveDirection.y = 0;
+                    Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
+                    myTransform.rotation = rollRotation;
+                }
+                else
+                {
+                    animatorHandler.PlayTargetAnimation("Backstep", true);
+                }
+            }
         }
 
         #endregion
