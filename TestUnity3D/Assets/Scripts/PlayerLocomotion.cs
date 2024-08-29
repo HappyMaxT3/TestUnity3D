@@ -18,7 +18,10 @@ namespace Main
         public GameObject normalCamera;
 
         [SerializeField] float movementSpeed = 5;
+        [SerializeField] float sprintSpeed = 8;
         [SerializeField] float rotationSpeed = 10;
+
+        public bool isSprinting;
 
 
         void Start()
@@ -34,6 +37,8 @@ namespace Main
         public void Update()
         {
             float delta = Time.deltaTime;
+
+            isSprinting = inputHandler.sprintFlag;
 
             inputHandler.TickInput(delta);
 
@@ -73,6 +78,11 @@ namespace Main
 
         private void HandleMovement(float delta)
         {
+            if (inputHandler.rollFlag)
+            {
+                return;
+            }
+
             //moveDirection = cameraObject.forward * inputHandler.vertical;
             //moveDirection = cameraObject.right * inputHandler.horizontal;
             moveDirection = (cameraObject.forward * inputHandler.vertical) + (cameraObject.right * inputHandler.horizontal);
@@ -80,12 +90,21 @@ namespace Main
             moveDirection.Normalize();
 
             float speed = movementSpeed;
+            if (inputHandler.sprintFlag)
+            {
+                speed = sprintSpeed;
+                isSprinting = true;
+            }
+            else
+            {
+                isSprinting = false;
+            }
             moveDirection *= speed;
 
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
             rb.velocity = projectedVelocity;
 
-            animatorHandler.UpdatteAnimatorValues(inputHandler.moveAmount, 0);
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, isSprinting);
 
             if (animatorHandler.canRotate)
             {
@@ -99,6 +118,7 @@ namespace Main
             {
                 return;
             }
+
             if (inputHandler.rollFlag)
             {
                 Debug.Log("Roll!");

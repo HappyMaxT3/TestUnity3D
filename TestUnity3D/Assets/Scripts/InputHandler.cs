@@ -13,8 +13,11 @@ namespace Main
         public float mouseX;
         public float mouseY;
 
-        public bool buttonInput;
+        public bool buttonInputRoll;
+        public bool buttonInputSprint;
         public bool rollFlag;
+        public float rollInputTimer;
+        public bool sprintFlag;
         public bool isInteracting;
 
         PlayerControls inputActions;
@@ -79,19 +82,26 @@ namespace Main
         }
 
         private void HandleRollInput(float delta)
-        {   
-            buttonInput = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+        {
+            buttonInputRoll = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            buttonInputSprint = inputActions.PlayerActions.Sprint.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
 
-            if (buttonInput)
+            if (buttonInputRoll)
             {
                 Debug.Log("Player Action!");
                 rollFlag = true;
+                sprintFlag = false;
+            }
+            else if (buttonInputSprint)
+            {
+                sprintFlag = true;
             }
             else
             {
-                rollFlag = false;
+                sprintFlag = false;
             }
         }
+
     }
 }
 

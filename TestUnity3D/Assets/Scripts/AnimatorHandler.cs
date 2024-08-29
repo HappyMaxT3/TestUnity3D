@@ -9,8 +9,8 @@ namespace Main
         public Animator animator;
         public InputHandler inputHandler;
         public PlayerLocomotion playerLocomotion;
-        private int vertical;
-        private int horizontal;
+        private int verticalParam;
+        private int horizontalParam;
         public bool canRotate;
 
         public void Initialize()
@@ -18,65 +18,73 @@ namespace Main
             animator = GetComponent<Animator>();
             inputHandler = GetComponent<InputHandler>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
-            vertical = Animator.StringToHash("Vertical");
-            horizontal = Animator.StringToHash("Horizontal");
+            verticalParam = Animator.StringToHash("Vertical");
+            horizontalParam = Animator.StringToHash("Horizontal");
         }
 
-        public void UpdatteAnimatorValues(float verticalMovement, float horizontalMovement)
+        public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting)
         {
             #region Vertical
             float v = 0;
 
-            if (verticalMovement > 0 && verticalMovement < 0.55f) 
-            {
-                v = 0.5f;
-            } 
-            else if(verticalMovement > 0.55f)
+            if (verticalMovement > 0.55f)
             {
                 v = 1;
             }
-            else if(verticalMovement < 0 && verticalMovement > -0.55f)
+            else if (verticalMovement > 0 && verticalMovement <= 0.55f)
             {
-                v = -0.5f;
+                v = 0.5f;
             }
-            else if(verticalMovement < -0.55f)
+            else if (verticalMovement < -0.55f)
             {
                 v = -1;
             }
-            else
+            else if (verticalMovement < 0 && verticalMovement >= -0.55f)
             {
-                v = 0;
+                v = -0.5f;
             }
 
+            if (isSprinting)
+            {
+                verticalMovement *= 2;
+                v = verticalMovement; 
+            }
             #endregion
 
             #region Horizontal 
             float h = 0;
-            if (horizontalMovement > 0 && horizontalMovement < 0.55f)
-            {
-                h = 0.5f;
-            }
-            else if (horizontalMovement > 0.55f)
+            if (horizontalMovement > 0.55f)
             {
                 h = 1;
             }
-            else if (horizontalMovement < 0 && horizontalMovement > -0.55f)
+            else if (horizontalMovement > 0 && horizontalMovement <= 0.55f)
             {
-                h = -0.5f;
+                h = 0.5f;
             }
             else if (horizontalMovement < -0.55f)
             {
                 h = -1;
             }
-            else
+            else if (horizontalMovement < 0 && horizontalMovement >= -0.55f)
             {
-                h  = 0;
+                h = -0.5f;
             }
 
+            if (isSprinting)
+            {
+                horizontalMovement *= 2;
+                h = horizontalMovement;
+            }
             #endregion
 
-            animator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
-            animator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
+
+            v = Mathf.Clamp(v, -2, 2);
+            h = Mathf.Clamp(h, -2, 2);
+
+            animator.SetBool("isSprinting", isSprinting);
+
+            animator.SetFloat(verticalParam, v, 0.1f, Time.deltaTime);
+            animator.SetFloat(horizontalParam, h, 0.1f, Time.deltaTime);
         }
 
         public void PlayTargetAnimation(string targetAnim, bool isInteracting)
@@ -98,7 +106,7 @@ namespace Main
 
         private void OnAnimatorMove()
         {
-            if (inputHandler.isInteracting == false)
+            if (!inputHandler.isInteracting)
             {
                 return;
             }
@@ -111,5 +119,3 @@ namespace Main
         }
     }
 }
-
-

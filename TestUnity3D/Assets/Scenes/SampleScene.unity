@@ -174,12 +174,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6705b4bdfdb13cc4eae2e9f6ed1b50e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 0}
+  myTransform: {fileID: 1979321453}
   animatorHandler: {fileID: 0}
   rb: {fileID: 0}
   normalCamera: {fileID: 963194225}
   movementSpeed: 5
+  sprintSpeed: 10
   rotationSpeed: 10
+  isSprinting: 0
 --- !u!114 &122506974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,8 +199,11 @@ MonoBehaviour:
   moveAmount: 0
   mouseX: 0
   mouseY: 0
-  buttonInput: 0
+  buttonInputRoll: 0
+  buttonInputSprint: 0
   rollFlag: 0
+  rollInputTimer: 0
+  sprintFlag: 0
   isInteracting: 0
 --- !u!136 &122506975
 CapsuleCollider:
@@ -926,6 +931,9 @@ MonoBehaviour:
     mouse - camera position
 
     ctrl - roll/backstep
+
+    shift
+    - sprint
 
 '
   m_isRightToLeft: 0
