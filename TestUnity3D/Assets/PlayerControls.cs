@@ -155,7 +155,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""74e0c45e-5744-4253-b740-3fdc8a096a56"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",

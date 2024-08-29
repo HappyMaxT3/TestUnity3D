@@ -28,9 +28,9 @@ namespace Main
 
         [SerializeField] public float minPivot = -35;
         [SerializeField] public float maxPivot = 35;
-        [SerializeField] public float cameraSphereRadius = 0.1f;
-        [SerializeField] public float cameraCollisionOffset = 0.1f;
-        [SerializeField] public float minCollisionOffset = 0.1f;
+        [SerializeField] public float cameraSphereRadius = 0.2f;
+        [SerializeField] public float cameraCollisionOffset = 0.2f;
+        [SerializeField] public float minCollisionOffset = 0.2f;
 
         private void Awake()
         {

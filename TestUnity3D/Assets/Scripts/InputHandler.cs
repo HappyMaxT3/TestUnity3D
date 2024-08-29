@@ -46,8 +46,12 @@ namespace Main
             if(inputActions == null)
             {
                 inputActions = new PlayerControls();
+
                 inputActions.PlayerMovement.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
                 inputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
+
+                inputActions.PlayerActions.Roll.performed += i => rollFlag = true;
+                inputActions.PlayerActions.Roll.canceled += i => rollFlag = false;
             }
 
             inputActions.Enable();
@@ -75,11 +79,12 @@ namespace Main
         }
 
         private void HandleRollInput(float delta)
-        {
-            buttonInput = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+        {   
+            buttonInput = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
 
             if (buttonInput)
             {
+                Debug.Log("Player Action!");
                 rollFlag = true;
             }
             else
