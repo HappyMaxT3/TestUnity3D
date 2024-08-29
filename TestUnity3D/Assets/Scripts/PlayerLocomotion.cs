@@ -18,7 +18,7 @@ namespace Main
         public GameObject normalCamera;
 
         [SerializeField] float movementSpeed = 5;
-        [SerializeField] float sprintSpeed = 8;
+        [SerializeField] public float sprintSpeed = 15;
         [SerializeField] float rotationSpeed = 10;
 
         public bool isSprinting;

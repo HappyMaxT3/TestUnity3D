@@ -46,7 +46,7 @@ namespace Main
 
             if (isSprinting)
             {
-                verticalMovement *= 2;
+                verticalMovement = playerLocomotion.sprintSpeed;
                 v = verticalMovement; 
             }
             #endregion
@@ -72,7 +72,7 @@ namespace Main
 
             if (isSprinting)
             {
-                horizontalMovement *= 2;
+                horizontalMovement = playerLocomotion.sprintSpeed;
                 h = horizontalMovement;
             }
             #endregion

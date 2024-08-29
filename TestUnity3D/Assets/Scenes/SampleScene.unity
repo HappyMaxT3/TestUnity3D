@@ -179,7 +179,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   normalCamera: {fileID: 963194225}
   movementSpeed: 5
-  sprintSpeed: 10
+  sprintSpeed: 15
   rotationSpeed: 10
   isSprinting: 0
 --- !u!114 &122506974
