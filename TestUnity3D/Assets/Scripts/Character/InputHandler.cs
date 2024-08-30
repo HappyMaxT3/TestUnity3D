@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -15,34 +16,17 @@ namespace Main
 
         public bool buttonInputRoll;
         public bool buttonInputSprint;
+        public bool buttonInputJump;   
+
         public bool rollFlag;
         public float rollInputTimer;
         public bool sprintFlag;
-        public bool isInteracting;
+        public bool jumpFlag;
 
         PlayerControls inputActions;
-        CameraHandler cameraHandler;
 
         Vector2 movementInput;
         Vector2 cameraInput;
-
-        private void Awake()
-        {
-            cameraHandler = CameraHandler.singleton;
-        }
-
-        private void FixedUpdate()
-        {
-            float delta = Time.fixedDeltaTime;
-            TickInput(delta);
-
-            if(cameraHandler != null )
-            {
-                cameraHandler.FollowTarget(delta);
-                cameraHandler.HandleCameraLocation(delta, mouseX, mouseY);
-
-            }
-        }
 
         public void OnEnable()
         {
@@ -55,6 +39,9 @@ namespace Main
 
                 inputActions.PlayerActions.Roll.performed += i => rollFlag = true;
                 inputActions.PlayerActions.Roll.canceled += i => rollFlag = false;
+
+                //inputActions.PlayerActions.Jump.performed += i => jumpFlag = true;
+                //inputActions.PlayerActions.Jump.canceled += i => jumpFlag = false;
             }
 
             inputActions.Enable();
@@ -85,6 +72,7 @@ namespace Main
         {
             buttonInputRoll = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
             buttonInputSprint = inputActions.PlayerActions.Sprint.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            buttonInputJump = inputActions.PlayerActions.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
 
             if (buttonInputRoll)
             {
@@ -96,9 +84,16 @@ namespace Main
             {
                 sprintFlag = true;
             }
+            else if (buttonInputJump)
+            {
+                rollFlag = false;
+                jumpFlag = true;
+            }
             else
             {
+                jumpFlag = false;
                 sprintFlag = false;
+                rollFlag = false;
             }
         }
 

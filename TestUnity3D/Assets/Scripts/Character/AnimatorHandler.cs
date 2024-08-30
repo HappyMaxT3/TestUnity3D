@@ -6,15 +6,17 @@ namespace Main
 {
     public class AnimatorHandler : MonoBehaviour
     {
+        private PlayerManager playerManager;
         public Animator animator;
-        public InputHandler inputHandler;
-        public PlayerLocomotion playerLocomotion;
+        private InputHandler inputHandler;
+        private PlayerLocomotion playerLocomotion;
         private int verticalParam;
         private int horizontalParam;
         public bool canRotate;
 
         public void Initialize()
         {
+            playerManager = GetComponent<PlayerManager>();
             animator = GetComponent<Animator>();
             inputHandler = GetComponent<InputHandler>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
@@ -44,7 +46,7 @@ namespace Main
                 v = -0.5f;
             }
 
-            if (isSprinting)
+            if (isSprinting && verticalMovement > 0)
             {
                 verticalMovement = playerLocomotion.sprintSpeed;
                 v = verticalMovement; 
@@ -70,7 +72,7 @@ namespace Main
                 h = -0.5f;
             }
 
-            if (isSprinting)
+            if (isSprinting && horizontalMovement > 0)
             {
                 horizontalMovement = playerLocomotion.sprintSpeed;
                 h = horizontalMovement;
@@ -106,7 +108,7 @@ namespace Main
 
         private void OnAnimatorMove()
         {
-            if (!inputHandler.isInteracting)
+            if (!playerManager.isInteracting)
             {
                 return;
             }
