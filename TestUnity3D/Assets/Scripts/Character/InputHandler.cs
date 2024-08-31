@@ -40,8 +40,8 @@ namespace Main
                 inputActions.PlayerActions.Roll.performed += i => rollFlag = true;
                 inputActions.PlayerActions.Roll.canceled += i => rollFlag = false;
 
-                //inputActions.PlayerActions.Jump.performed += i => jumpFlag = true;
-                //inputActions.PlayerActions.Jump.canceled += i => jumpFlag = false;
+                inputActions.PlayerActions.Jump.performed += i => jumpFlag = true;
+                inputActions.PlayerActions.Jump.canceled += i => jumpFlag = false;
             }
 
             inputActions.Enable();
@@ -56,7 +56,7 @@ namespace Main
         {
             MoveInput(delta);
             HandleRollInput(delta);
-            
+            HandleJumpInput(delta);
         }
 
         private void MoveInput(float delta)
@@ -94,6 +94,16 @@ namespace Main
                 jumpFlag = false;
                 sprintFlag = false;
                 rollFlag = false;
+            }
+        }
+
+        private void HandleJumpInput(float delta)
+        {
+            buttonInputJump = inputActions.PlayerActions.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+
+            if (buttonInputJump && !jumpFlag)
+            {
+                jumpFlag = true;
             }
         }
 

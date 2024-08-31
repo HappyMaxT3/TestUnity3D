@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour
     public bool isGrounded;
     public bool isInAir;
     public bool isSprinting;
+    public bool isJumping;
 
     private void Awake()
     {
@@ -60,10 +61,10 @@ public class PlayerManager : MonoBehaviour
     {
         inputHandler.rollFlag = false;
         inputHandler.sprintFlag = false;
-        //inputHandler.jumpFlag = false;
+        inputHandler.jumpFlag = false;
 
         isSprinting = inputHandler.sprintFlag;
-        //playerLocomotion.HandleJump(delta);
+        isJumping = inputHandler.jumpFlag;
 
         if(isInAir)
         {

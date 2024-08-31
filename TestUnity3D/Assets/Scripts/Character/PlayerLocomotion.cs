@@ -17,7 +17,8 @@ namespace Main
         public Rigidbody rb;
         public GameObject normalCamera;
 
-        [Header("Ground Detections:")]
+        [Header("Ground detect:")]
+        [SerializeField] LayerMask groundLayer;
         [SerializeField] float groundDetectRayStartPoint = 0.5f;
         [SerializeField] float minDistanceToFall = 1f;
         [SerializeField] float groundDetectRayDistance = 0.2f;
@@ -28,10 +29,17 @@ namespace Main
         [SerializeField] float movementSpeed = 5;
         [SerializeField] public float sprintSpeed = 15;
         [SerializeField] float rotationSpeed = 10;
-        //[SerializeField] float jumpHeight = 3.0f;
+
+        [Header("Jump:")]
+        [SerializeField] float jumpForce = 165f;
         [SerializeField] float fallSpeed = 45;
 
-        [SerializeField] LayerMask groundLayer;
+        [Header("Roll collider settings:")]
+        [SerializeField] float originalColliderHeight;
+        [SerializeField] Vector3 originalColliderCenter;
+        [SerializeField] float rollColliderHeight = 0.5f; 
+        [SerializeField] Vector3 rollColliderCenter = new Vector3(0, 0.5f, 0); 
+        public CapsuleCollider capsuleCollider;
 
         void Start()
         {
@@ -41,6 +49,11 @@ namespace Main
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+
+            capsuleCollider = GetComponent<CapsuleCollider>(); 
+
+            originalColliderHeight = capsuleCollider.height;
+            originalColliderCenter = capsuleCollider.center;
 
             animatorHandler.Initialize();
 
@@ -90,8 +103,6 @@ namespace Main
                 return;
             }
 
-            //moveDirection = cameraObject.forward * inputHandler.vertical;
-            //moveDirection = cameraObject.right * inputHandler.horizontal;
             moveDirection = (cameraObject.forward * inputHandler.vertical) + (cameraObject.right * inputHandler.horizontal);
             moveDirection.y = 0;
             moveDirection.Normalize();
@@ -117,6 +128,8 @@ namespace Main
             {
                 HandleRotation(delta);
             }
+
+            HandleJumping(delta);
         }
 
         public void HandleRollAndSprint(float delta)
@@ -137,12 +150,25 @@ namespace Main
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
+
+                    StartCoroutine(ChangeCollider());
                 }
                 else
                 {
                     animatorHandler.PlayTargetAnimation("Backstep", true);
                 }
             }
+        }
+
+        private IEnumerator ChangeCollider()
+        {
+            capsuleCollider.height = rollColliderHeight;
+            capsuleCollider.center = rollColliderCenter;
+
+            yield return new WaitForSeconds(1.8f);
+
+            capsuleCollider.height = originalColliderHeight;
+            capsuleCollider.center = originalColliderCenter;
         }
 
         public void HandleFalling(float delta, Vector3 moveDirection)
@@ -225,6 +251,22 @@ namespace Main
                 }
             }
         }
+
+        private void HandleJumping(float delta)
+        {
+            if (playerManager.isGrounded && inputHandler.jumpFlag)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z); 
+                playerManager.isGrounded = false; 
+                inputHandler.jumpFlag = false;
+                playerManager.isInAir = true;
+                animatorHandler.PlayTargetAnimation("Jump", true);
+            }
+
+            HandleFalling(delta, moveDirection);
+        }
+
+
 
         #endregion
 
