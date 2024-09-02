@@ -47,7 +47,6 @@ namespace Main
             HandleCameraCollisions(delta);
         }
 
-
         public void HandleCameraLocation(float delta, float mouseXInput, float mouseYInput)
         {
             lookAngle += (mouseXInput * lookSpeed) / delta;
