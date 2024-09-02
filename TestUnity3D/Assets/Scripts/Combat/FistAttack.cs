@@ -34,14 +34,16 @@ public class FistAttack : Weapon
     private IEnumerator EnableHitboxForTime()
     {
         fistHitbox.enabled = true;
+
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
         fistHitbox.enabled = false;
         isAttacking = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (isAttacking && other.CompareTag("Enemy"))
         {
             Debug.Log("Hit!");
         }

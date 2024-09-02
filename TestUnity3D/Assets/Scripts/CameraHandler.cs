@@ -26,11 +26,11 @@ namespace Main
         private float lookAngle;
         private float pivotAngle;
 
-        [SerializeField] public float minPivot = -35;
-        [SerializeField] public float maxPivot = 35;
-        [SerializeField] public float cameraSphereRadius = 0.2f;
-        [SerializeField] public float cameraCollisionOffset = 0.2f;
-        [SerializeField] public float minCollisionOffset = 0.2f;
+        [SerializeField] public float minPivot = -38;
+        [SerializeField] public float maxPivot = 38;
+        [SerializeField] public float cameraSphereRadius = 0.4f;
+        [SerializeField] public float cameraCollisionOffset = 0.4f;
+        [SerializeField] public float minCollisionOffset = 0.4f;
 
         private void Awake()
         {

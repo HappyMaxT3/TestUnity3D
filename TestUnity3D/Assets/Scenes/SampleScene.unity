@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -192,7 +192,7 @@ MonoBehaviour:
   sprintSpeed: 18
   rotationSpeed: 12
   jumpForce: 165
-  fallSpeed: 9000
+  fallSpeed: 7000
   originalColliderHeight: 3.1
   originalColliderCenter: {x: 0, y: 2.2, z: 0}
   rollColliderHeight: 2
@@ -222,6 +222,7 @@ MonoBehaviour:
   rollInputTimer: 0
   sprintFlag: 0
   jumpFlag: 0
+  hitFlag: 0
 --- !u!136 &122506975
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1246,11 +1247,11 @@ MonoBehaviour:
   lookSpeed: 0.1
   followSpeed: 0.1
   pivotSpeed: 0.03
-  minPivot: -35
-  maxPivot: 35
-  cameraSphereRadius: 0.2
-  cameraCollisionOffset: 0.2
-  minCollisionOffset: 0.2
+  minPivot: -38
+  maxPivot: 38
+  cameraSphereRadius: 0.4
+  cameraCollisionOffset: 0.4
+  minCollisionOffset: 0.4
 --- !u!1001 &1081389272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1776,7 +1777,9 @@ MonoBehaviour:
     shift
     - sprint
 
-    space - jump'
+    space - jump
+
+    LMB - hit (check console)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1965,7 +1968,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 37dc87ceb67fd9d4c94382b539a22e4a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2432,9 +2435,9 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.15
+  m_Radius: 0.32
   m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1 &1737893293
 GameObject:
@@ -2687,13 +2690,14 @@ GameObject:
   - component: {fileID: 1875649771}
   - component: {fileID: 1875649770}
   - component: {fileID: 1875649769}
+  - component: {fileID: 1875649772}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1875649768
 Transform:
   m_ObjectHideFlags: 0
@@ -2703,7 +2707,7 @@ Transform:
   m_GameObject: {fileID: 1875649767}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.86, y: 1.67, z: 13.45}
+  m_LocalPosition: {x: 16.15, y: 2.83, z: 11.62}
   m_LocalScale: {x: 1.5, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2752,7 +2756,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 37dc87ceb67fd9d4c94382b539a22e4a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2782,6 +2786,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1875649767}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1875649772
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875649767}
+  serializedVersion: 4
+  m_Mass: 60
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1887321524
 GameObject:
   m_ObjectHideFlags: 0
