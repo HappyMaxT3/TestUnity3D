@@ -22,7 +22,7 @@ namespace Main
         public float rollInputTimer;
         public bool sprintFlag;
         public bool jumpFlag;
-        public bool hitFlag;
+        public bool isAttacking;
 
         PlayerControls inputActions;
 
@@ -44,8 +44,8 @@ namespace Main
                 inputActions.PlayerActions.Jump.performed += i => jumpFlag = true;
                 inputActions.PlayerActions.Jump.canceled += i => jumpFlag = false;
 
-                inputActions.PlayerActions.Hit.performed += i => hitFlag = true;
-                inputActions.PlayerActions.Hit.canceled += i => hitFlag = false;
+                inputActions.PlayerActions.Hit.performed += i => isAttacking = true;
+                inputActions.PlayerActions.Hit.canceled += i => isAttacking = false;
             }
 
             inputActions.Enable();
