@@ -1,34 +1,25 @@
+using Main;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
     private Weapon currentWeapon;
-    private PlayerControls inputActions;
     private Animator animator;
+    private InputHandler inputHandler; 
 
     private void Awake()
     {
-        inputActions = new PlayerControls();
+        inputHandler = GetComponent<InputHandler>();
         animator = GetComponent<Animator>();
+        currentWeapon = GetComponent<Weapon>(); 
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        inputActions.PlayerActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputActions.PlayerActions.Disable();
-    }
-
-    private void Start()
-    {
-        //there could be a choice of weapons but there isn't one yet :(
-        currentWeapon = GetComponent<FistAttack>();
-
-        inputActions.PlayerActions.Hit.performed += i => PerformAttack();
+        if (inputHandler.isAttacking)
+        {
+            PerformAttack();
+        }
     }
 
     private void PerformAttack()

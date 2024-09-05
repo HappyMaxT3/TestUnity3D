@@ -1,17 +1,15 @@
 using UnityEngine;
 using System.Collections;
-using System.Linq;
 
 public class FistAttack : Weapon
 {
     public Collider fistHitbox;
     public Animator animator;
-
     private bool isAttacking = false;
 
     private void Awake()
     {
-        fistHitbox = GetComponentsInChildren<SphereCollider>(true).FirstOrDefault(collider => collider.gameObject.name == "mixamorig:RightHand");
+        fistHitbox = GetComponentInChildren<Collider>();
         animator = GetComponent<Animator>();
     }
 

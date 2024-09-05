@@ -222,7 +222,7 @@ MonoBehaviour:
   rollInputTimer: 0
   sprintFlag: 0
   jumpFlag: 0
-  hitFlag: 0
+  isAttacking: 0
 --- !u!136 &122506975
 CapsuleCollider:
   m_ObjectHideFlags: 0

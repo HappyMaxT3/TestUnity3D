@@ -24,7 +24,7 @@ namespace Main
         public bool jumpFlag;
         public bool isAttacking;
 
-        PlayerControls inputActions;
+        private PlayerControls inputActions;
 
         Vector2 movementInput;
         Vector2 cameraInput;
